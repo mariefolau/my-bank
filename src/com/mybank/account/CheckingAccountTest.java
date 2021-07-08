@@ -2,7 +2,6 @@ package com.mybank.account;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +14,7 @@ class CheckingAccountTest {
 		this.account = new CheckingAccount("customer 1", "test account", 0, "test account number");
 	}
 
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
+
 
 	@Test
 	void deposit__amount_greater_than_zero__works() {
@@ -58,4 +54,46 @@ class CheckingAccountTest {
 		});
 
 	}
+
+	@Test
+	void withdraw__amount_greater_than_zero__works() throws InsufficientFundsException {
+		
+		
+		// try with good amount (greater than zero)
+		double amount = 21.0;
+
+		// get the actual balance
+		account.deposit(amount +1);
+						
+		// do the actual test
+		account.withdraw(amount);
+
+		// check it did work
+		assertEquals(1.0, account.getBalance());
+		
+		
+		}
+
+	
+	
+	@Test
+	void withdraw__amount_less_than_zero__throws() {
+		//bad amount
+		double amount = -4.0;
+		
+		assertThrows(IllegalArgumentException.class, () -> {
+			account.withdraw(amount);
+		});
+		
+	}
+	
+	@Test
+	void withdraw__amount_equal_to_zero__throws() {
+		double amount = 0.0;
+		
+		assertThrows(IllegalArgumentException.class, () -> {
+			account.withdraw(amount);
+		});
+	}
+
 }
